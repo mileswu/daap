@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title></title>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	
+<!--CSS file (default YUI Sam Skin) -->
+<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/datatable/assets/skins/sam/datatable.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/paginator/assets/skins/sam/paginator.css">
+
+
+
+<!-- Dependencies -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/datasource/datasource-min.js"></script>
+
+<!-- OPTIONAL: JSON Utility (for DataSource) -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/json/json-min.js"></script>
+
+<!-- OPTIONAL: Connection Manager (enables XHR for DataSource) -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/connection/connection-min.js"></script>
+
+<!-- OPTIONAL: Get Utility (enables dynamic script nodes for DataSource) -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/get/get-min.js"></script>
+
+<!-- OPTIONAL: Drag Drop (enables resizeable or reorderable columns) -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/dragdrop/dragdrop-min.js"></script>
+
+<!-- OPTIONAL: Calendar (enables calendar editors) -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/calendar/calendar-min.js"></script>
+
+<!-- Source files -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/datatable/datatable-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/paginator/paginator-min.js"></script>
+
+<script src="http://yui.yahooapis.com/2.7.0/build/slider/slider-min.js"></script> 
+
+
+	<script type="text/javascript" src="/html/yui.js"></script>
+
+	<script type="text/javascript" src="/html/clutter/niftyplayer/niftyplayer.js"></script>
+	<script type="text/javascript" src="/html/clutter/controls.js"></script>
+	<link rel="stylesheet" type="text/css" href="/html/clutter/controls.css">
+	
+<style type="text/css">
+
+/* This hides the autocomplete drop downs */
+#dt_ac_container {
+    display: none;
+}
+
+/*
+Copyright (c) 2009, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.7.0
+*/
+.yui-h-slider,.yui-v-slider{position:relative;}.yui-h-slider .yui-slider-thumb,.yui-v-slider .yui-slider-thumb{position:absolute;cursor:default;}.yui-skin-sam .yui-h-slider{background:url(http://yui.yahooapis.com/2.7.0/build/slider/assets/skins/sam/bg-h.gif) no-repeat 5px 0;height:28px;width:114px;}.yui-skin-sam .yui-h-slider .yui-slider-thumb{top:4px;}.yui-skin-sam 
+
+
+</style>
+
+
+</head>
+
+<body class="yui-skin-sam">
+	
+	<div id="controls">
+		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="165" height="20" id="niftyPlayer1" align="">
+		 <param name=movie value="/html/clutter/niftyplayer/niftyplayer.swf">
+		 <param name=quality value=high>
+		 <param name=bgcolor value=#ececed>
+		 <embed src="/html/clutter/niftyplayer/niftyplayer.swf" quality=high bgcolor=#ececed width="165" height="20" name="niftyPlayer1" align="" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer">
+		</embed>
+		</object>
+		<div id="buttonGroup">
+			<img id="stopButton" src="/html/clutter/icons/stop.png"  onclick="stopAndDeselect();"/>				
+			<img id="playPauseToggleButton" src="/html/clutter/icons/pause.png"  onclick="playPauseAction();" />				
+			<img id="nextButton" src="/html/clutter/icons/next.png"  onclick="playNextSong();" />
+		</div>
+		<div id="slider-bg" class="yui-h-slider" tabindex="-1" title="Slider">
+    		<div id="slider-thumb" class="yui-slider-thumb"><img src="http://yui.yahooapis.com/2.7.0/build/slider/assets/thumb-	n.gif"></div>
+		</div>
+		
+		
+		<div id="currentlyPlaying">
+			<span id="trackTitle"></span>
+			<span id="trackAlbum"></span>
+			<span id="trackArtist"></span>
+		</div>				
+		
+		<div id="rightGroup">
+		<img id="healthIndicator" src="/html/clutter/icons/smiley.png" />				
+		<img id="helpButton" src="/html/clutter/icons/help.png" />				
+		</div>
+		
+	</div>
+	
+	<div id="leftPanel">
+		<div class="miniToolbar"><label>Now Playing</label></div>
+		
+		<div id="playlist"></div>
+	</div>
+	
+	<div id="rightPanel">
+		<div class="miniToolbar">
+			<div id="autocomplete">   
+     			<label label-for="dt_input">Search:</label><input id="dt_input" type="text" value="">   
+     			<div id="dt_ac_container"></div>  
+			</div>
+		</div>
+		<div id="dynamicdata"></div> 
+		
+	</div>
+
+
+</body>
+
+</html>
