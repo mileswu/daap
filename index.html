@@ -1,21 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<title></title>
 	
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 	
 <!--CSS file (default YUI Sam Skin) -->
-<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/datatable/assets/skins/sam/datatable.css">
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/paginator/assets/skins/sam/paginator.css">
-
+<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/datatable/assets/skins/sam/datatable.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/paginator/assets/skins/sam/paginator.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/menu/assets/skins/sam/menu.css" /> 
 
 
 <!-- Dependencies -->
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/element/element-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/container/container_core-min.js"></script> 
+
 
 <!-- OPTIONAL: JSON Utility (for DataSource) -->
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/json/json-min.js"></script>
@@ -36,15 +40,20 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/datatable/datatable-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/autocomplete/autocomplete-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/menu/menu-min.js"></script> 
 
-<script src="http://yui.yahooapis.com/2.7.0/build/slider/slider-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/slider/slider-min.js"></script> 
 
 
 	<script type="text/javascript" src="/html/yui.js"></script>
 
 	<script type="text/javascript" src="/html/clutter/niftyplayer/niftyplayer.js"></script>
 	<script type="text/javascript" src="/html/clutter/controls.js"></script>
-	<link rel="stylesheet" type="text/css" href="/html/clutter/controls.css">
+	<link rel="stylesheet" type="text/css" href="/html/clutter/toolbar.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/controls.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/panel.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/volume.css" />
+
 	
 <style type="text/css">
 
@@ -59,8 +68,6 @@ Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
 version: 2.7.0
 */
-.yui-h-slider,.yui-v-slider{position:relative;}.yui-h-slider .yui-slider-thumb,.yui-v-slider .yui-slider-thumb{position:absolute;cursor:default;}.yui-skin-sam .yui-h-slider{background:url(http://yui.yahooapis.com/2.7.0/build/slider/assets/skins/sam/bg-h.gif) no-repeat 5px 0;height:28px;width:114px;}.yui-skin-sam .yui-h-slider .yui-slider-thumb{top:4px;}.yui-skin-sam 
-
 
 </style>
 
@@ -70,20 +77,22 @@ version: 2.7.0
 <body class="yui-skin-sam">
 	
 	<div id="controls">
-		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="165" height="20" id="niftyPlayer1" align="">
-		 <param name=movie value="/html/clutter/niftyplayer/niftyplayer.swf">
-		 <param name=quality value=high>
-		 <param name=bgcolor value=#ececed>
-		 <embed src="/html/clutter/niftyplayer/niftyplayer.swf" quality=high bgcolor=#ececed width="165" height="20" name="niftyPlayer1" align="" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer">
-		</embed>
+
+		
+		<object data="/html/clutter/niftyplayer/niftyplayer.swf" width="165" height="20" id="niftyPlayer1" type="application/x-shockwave-flash">
+		 <param name="movie" value="/html/clutter/niftyplayer/niftyplayer.swf" />
+		 <param name="quality" value="high" />
+		 <param name="bgcolor" value="#ececed" />
+		 
 		</object>
 		<div id="buttonGroup">
-			<img id="stopButton" src="/html/clutter/icons/stop.png"  onclick="stopAndDeselect();"/>				
-			<img id="playPauseToggleButton" src="/html/clutter/icons/pause.png"  onclick="playPauseAction();" />				
-			<img id="nextButton" src="/html/clutter/icons/next.png"  onclick="playNextSong();" />
+			<img id="stopButton" class="button" src="/html/clutter/icons/stop.png" alt="Stop" title="Stop" onclick="stopAndDeselect();"/>				
+			<img id="playPauseToggleButton" class="button" src="/html/clutter/icons/pause.png" alt="Toggle Play/Pause" title="Pause" onclick="playPauseAction();" />				
+			<img id="nextButton" class="button" src="/html/clutter/icons/next.png" alt="Skip Song" title="Skip Song"  onclick="playNextSong();" />
 		</div>
+		
 		<div id="slider-bg" class="yui-h-slider" tabindex="-1" title="Slider">
-    		<div id="slider-thumb" class="yui-slider-thumb"><img src="http://yui.yahooapis.com/2.7.0/build/slider/assets/thumb-	n.gif"></div>
+    		<div id="slider-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/slider-bttn.png" alt="Slider" /></div>
 		</div>
 		
 		
@@ -91,17 +100,54 @@ version: 2.7.0
 			<span id="trackTitle"></span>
 			<span id="trackAlbum"></span>
 			<span id="trackArtist"></span>
-		</div>				
+		</div>
+	
 		
 		<div id="rightGroup">
-		<img id="healthIndicator" src="/html/clutter/icons/smiley.png" />				
-		<img id="helpButton" src="/html/clutter/icons/help.png" />				
+		<img id="healthIndicator" src="/html/clutter/icons/smiley.png" alt="Health icon" />				
+		<img id="settingsButton" class="button" onclick="document.getElementById('preferencesPanel').style.visibility='visible'" src="/html/clutter/icons/server.png" alt="Config" />				
+		<img id="infoButton" class="button" onclick="document.getElementById('aboutPanel').style.visibility='visible'" src="/html/clutter/icons/info.png" alt="Info" />	
 		</div>
 		
 	</div>
 	
+	<div id="volumeControlContainer">
+
+	</div>
+	
+	<div id="preferencesPanel" class="panel">
+		<h1>Configuration</h1>
+		<h2>Servers</h2>
+		<div id="servers"></div>
+		<div id="addServerDiv"><label label-for="newServerNickname">Nickname:</label><input id="newServerNickname" type="text"/>
+		<label label-for="newServerHostname">Host:</label><input id="newServerHostname" type="text"/> <img onclick="add_daap(document.getElementById('newServerHostname').value, document.getElementById('newServerNickname').value)" src="/html/clutter/icons/plus.png" alt="Add" /></div>
+		<div class="doneDiv"><span onclick="document.getElementById('preferencesPanel').style.visibility='hidden'" class="button">Done</span></div>
+	</div>
+	
+	<div id="aboutPanel" class="panel">
+		<h1>%HumourousProductTitle%</h1>
+		<h2>What</h2>
+		<p>A web-interface for browsing and playing <a href="http://en.wikipedia.org/wiki/Digital_Audio_Access_Protocol">DAAP</a> shares.</p>
+		<h2>Credits</h2>
+		<p><a href="http://rubyforge.org/projects/daapclient/"><i>NET::DAAP</i></a> under the <a href="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPL v2.0</a></p>
+		
+		<p><a href="http://developer.yahoo.com/yui/"><i>Yahoo! User Interface Library</i></a> under a <a href="http://developer.yahoo.com/yui/license.html">BSD license</a>.</p>
+		<p><i>Danish Royalty Free Icons</i> by <a href="http://jonasraskdesign.com">Jonas Rask</a>.</p>
+		<h2>Requirements</h2>
+		<p>Tested with Adobe Flash 10 and all of the following:</p>
+			<ul id="browserList"><li>Firefox 3+</li>
+			<li>Chrome</li>
+			<li>Safari 4</li>
+			<li>Opera 10</li>
+			<li>Internet Explorer 7+</li>
+			</ul>
+		
+		<div class="doneDiv"><span onclick="document.getElementById('aboutPanel').style.visibility='hidden'" class="button">Done</span></div>
+	</div>
+	
+	
 	<div id="leftPanel">
-		<div class="miniToolbar"><label>Now Playing</label></div>
+		<div class="miniToolbar"><p>Now Playing</p></div>
 		
 		<div id="playlist"></div>
 	</div>
@@ -109,11 +155,18 @@ version: 2.7.0
 	<div id="rightPanel">
 		<div class="miniToolbar">
 			<div id="autocomplete">   
-     			<label label-for="dt_input">Search:</label><input id="dt_input" type="text" value="">   
-     			<div id="dt_ac_container"></div>  
+     			<label label-for="dt_input">Search:</label><input id="dt_input" type="text" value=""/>
+     			<div id="dt_ac_container"></div>
+			</div>
+			<div id="paginator">
 			</div>
 		</div>
 		<div id="dynamicdata"></div> 
+		
+		<div class="miniToolbar">
+			<div id="paginator2">
+			</div>
+		</div>
 		
 	</div>
 

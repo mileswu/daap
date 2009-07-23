@@ -12,7 +12,7 @@ function addToQueueFromRecord(oRecord){
 YAHOO.util.Event.addListener(window, "load", function() {	
 	niftyplayer('niftyPlayer1').registerEvent('onSongOver', 'delayedUpdate()');
 	niftyplayer('niftyPlayer1').registerEvent('onSongOver', 'playNextSong()');
-	niftyplayer('niftyPlayer1').registerEvent('onPause', 'updateButtonStates()');
+	niftyplayer('niftyPlayer1').registerEvent('onPause', 'delayedUpdate()');
 	niftyplayer('niftyPlayer1').registerEvent('onPlay', 'delayedUpdate()');
 	
 	niftyplayer('niftyPlayer1').registerEvent('onBufferingStarted', "setHealthIndicator('busy');");
@@ -28,7 +28,12 @@ function setVolume1(vol) {
 }
 
 function delayedUpdate(){
-	setTimeout(updateButtonStates,150);
+	//updateButtonStates()
+	setTimeout(updateButtonStates,110);
+	setTimeout(updateButtonStates,250);
+	setTimeout(updateButtonStates,325);
+	setTimeout(updateButtonStates,500);
+	setTimeout(updateButtonStates,750);
 }
 
 function setCurrentlyPlaying(){//Have to assume that either queue[0] is playing, or nothing is.
@@ -126,3 +131,58 @@ function delete_from_playlist(id) {
 	else if(skip == 2)
 		stopAndDeselect();
 }
+
+function move(id, is_up) {
+	var pos = YAHOO.example.PlaylistTable.oDT.getRecordIndex(id);
+	var length = YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength()
+	if(pos == 0 && is_up == 1) //top
+		return;
+	if(pos == (length-1) && is_up == 0) //bottom
+		return;
+	if(length < 2)
+		return;
+	
+	var record = YAHOO.example.PlaylistTable.oDT.getRecord(id).getData();
+	delete_from_playlist(id);
+	
+	if(is_up == 1)
+	{
+		YAHOO.example.PlaylistTable.oDT.addRow(record, pos - 1);
+		if(pos == 1) //reached the top
+			loadAndPlayFirstInQueue();
+	}
+	else
+		YAHOO.example.PlaylistTable.oDT.addRow(record, pos + 1);
+}
+
+function delete_daap(index) {
+	var id = YAHOO.example.Servers.oDT.getRecord(index).getData("id");
+	
+	var add_remove_callback = function(o)
+	{	YAHOO.example.Servers.oDT.requery(""); }
+	
+	var callback = {   
+		success: add_remove_callback,   
+		failure: add_remove_callback,   
+		argument: { }   
+	};  
+	
+	var request = YAHOO.util.Connect.asyncRequest('GET', "/delete?id=" + id, callback); 
+}
+
+function add_daap(add, nick) {
+	var add_remove_callback = function(o) {
+			YAHOO.example.Servers.oDT.requery("");
+	}
+	
+	var callback = {   
+		success: add_remove_callback,   
+		failure: add_remove_callback,   
+		argument: { }   
+	};  
+	
+	var request = YAHOO.util.Connect.asyncRequest('GET', "/add?address=" + add + "&nickname=" + nick, callback); 
+	YAHOO.example.Servers.oDT.requery("");
+}
+
+

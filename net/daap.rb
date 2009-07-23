@@ -79,6 +79,8 @@ end
       def connect
         log.info("Connecting to #{@server_host}:#{@server_port}") if log
         @http_client = Net::HTTP.start(@server_host, @server_port)
+        @http_client.open_timeout = 15 #mileswu
+
         find_validator
         @dmap = Net::DAAP::DMAP.new(:daap => self)
         load_server_info
@@ -141,7 +143,8 @@ end
 
         req = Net::HTTP::Get.new(url, request_headers(url))
         req.basic_auth('iTunes_4.6', @password) if ! @password.nil?
-        http_client = Net::HTTP.start(@server_host, @server_port)
+        http_client = Net::HTTP.start(@server_host, @server_port) #mileswu
+        http_client.open_timeout = 15 #mileswu
         res = http_client.request(req) do |response|
           response.read_body(&block)
         end
@@ -178,7 +181,7 @@ end
 
         req = Net::HTTP::Get.new(url, request_headers(url))
         req.basic_auth('iTunes_4.6', @password) if ! @password.nil?
-        http_client = Net::HTTP.start(@server_host, @server_port)
+        http_client = Net::HTTP.start(@server_host, @server_port) #mileswu
         res = http_client.request(req, &block)
 
         case res

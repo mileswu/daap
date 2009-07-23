@@ -60,11 +60,11 @@ function niftyplayer(name)
 	};
 	
 	this.getLoadedFraction = function() {
-		return (sL/sT);
+		return (this.obj.GetVariable('sL')/this.obj.GetVariable('sT'));//Bytes?
 	};
 	
 	this.getPlayedFraction = function() {
-		return (sP/sD);
+		return (this.obj.GetVariable('sP')/this.obj.GetVariable('sD'));//Milliseconds
 	};
 
 	this.getState = function () {

@@ -5,13 +5,13 @@ module Net
 # This class contains song information returned from the DAAP server.
     class Song
       include Comparable
-      attr_reader :size, :album, :name, :artist, :format, :persistentid, :id, :tracknumber
+      attr_reader :size, :album, :name, :artist, :format, :persistentid, :id, :tracknumber #mileswu
       attr_accessor :path, :file
 
       alias :to_s :name
 
       def initialize(args)
-      	@tracknumber    = args['daap.songtracknumber']
+      	@tracknumber    = args['daap.songtracknumber'] #mileswu
         @size           = args['daap.songsize']
         @album          = args[:album]
         @name           = args['dmap.itemname']

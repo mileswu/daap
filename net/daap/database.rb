@@ -21,7 +21,7 @@ module Net
 
       @@SONG_ATTRIBUTES = %w{ dmap.itemid dmap.itemname dmap.persistentid
                              daap.songalbum daap.songartist daap.songformat
-                                                            daap.songsize daap.songtracknumber }
+                                                            daap.songsize daap.songtracknumber } #mileswu
 
       def initialize(args)
         @persistentid   = args['dmap.persistentid']
@@ -61,11 +61,19 @@ module Net
       def load_songs
         path = "databases/#{@id}/items?type=music&meta="
         path += @@SONG_ATTRIBUTES.join(',')
-
-        listings = @daap.dmap.find(@daap.do_get(path),
+		
+        d1 = @daap.do_get(path) #mileswu
+        d2 = d1.dup
+        listings = @daap.dmap.find(d1,
                              "daap.databasesongs/dmap.listing")
+        if (listings == nil)
+        	listings = @daap.dmap.find(d2, "daap.returndatabasesongs/dmap.listing")
+        	puts "DMAP/DAAP PROBLEM!!!!!" if( listings == nil)
+    	end
+        	
         artist_hash = {}
         album_hash  = {}
+                
         @daap.unpack_listing(listings) do |value|
           artist  = artist_hash[value['daap.songartist']] ||= Artist.new(value)
           album   = album_hash[value['daap.songalbum']]   ||= Album.new(

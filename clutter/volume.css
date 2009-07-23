@@ -1,0 +1,12 @@
+/* @override http://80.177.183.196:3001/html/clutter/volume.css */
+
+
+.yui-h-slider,.yui-v-slider {
+	position: relative;
+	cursor:default;
+}
+.yui-h-slider {
+	background: url(/html/clutter/slider/slider-bg.png) no-repeat 2px 1px;
+	height: 13px;
+	width: 120px;
+}

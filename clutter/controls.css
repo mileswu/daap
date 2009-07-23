@@ -1,3 +1,5 @@
+/* @override http://80.177.183.196:3000/html/clutter/controls.css */
+
 body{
 	padding-top:41px;
 	margin-left:0px;
@@ -5,117 +7,11 @@ body{
 	background-color: #e6e6e6;
 }
 
-#controls{
-	padding: 5px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height:38px;
-	background: #ececed url(/html/clutter/gradient.png) repeat-x 0;
-	border-bottom: 1px solid #666;
-	z-index: 1;
+.yui-dt2-col-actions {
+	width:32px;
+	text-align:center;
 }
 
-#controls #slider-bg{
-	display: block;
-	top: 5px;
-	clear: none;
-	float: left;
-}
-
-#controls object{
-	height:20px;
-	width:165px;
-	float:left;
-	border: 3px solid #c7c7c7;
-	margin: 6px;
-}
-
-#controls #buttonGroup{
-	float:left;
-	clear:none;
-	margin-right:10px;
-	margin-left:10px;
-}
-
-#controls img{
-	opacity:0.8;
-	margin-top: 2px;
-}
-
-#controls img:active{
-	opacity:1.0;
-}
-
-#controls #healthIndicator{
-	opacity:1.0;
-}
-
-#rightGroup{
-	display: inline;
-	float: right;
-	border-left: 1px dotted #666;
-	padding-left: 5px;
-	margin-right: 15px;
-}
-
-#controls #currentlyPlaying{
-	float:left;
-	clear:none;
-	color: #fff;
-	text-shadow: #000 0 2px 2px;
-	border-left: 1px dotted #666;
-	font-family: Verdana;
-	margin-left: 5px;
-	font-size:20px;
-	padding: 0px 3px 6px 10px;
-	margin-top:4px;
-}
-
-
-
-#controls #currentlyPlaying #trackAlbum{
-	font-size: 0.7em;
-	font-style: italic;
-}
-
-#controls #currentlyPlaying #trackArtist{
-	font-size: 0.7em;
-}
-
-/*#controls #currentlyPlaying #trackAlbum:before, #controls #currentlyPlaying #trackArtist:before{
-	content : "- "
-}*/
-
-/*Filter stuff*/
-
-.miniToolbar{
-	background-color: #ddd;
-	border-bottom: 1px solid #666;
-	padding-left: 10px;
-	padding-top:4px;
-	position:relative;
-	top:0px;
-	height:23px;
-}
-
-.miniToolbar label{
-	font-size: 14px;
-	font-weight: bold;
-	font-family: 'Lucida Grande', Tahoma, Verdana, Arial, Helvetica, sans-serif;
-	text-shadow: rgb(255, 255, 255) 0px 1px 0px;
-	color: rgb(34, 34, 34);
-}
-
-.miniToolbar #dt_input{
-	line-height: 12px;
-	font-size: 12px;
-	margin-left: 4px;
-	border: 1px solid #b3b3b3;
-	padding-left: 4px;
-	width:15em;
-}
 
 /*Table*/
 
@@ -131,6 +27,7 @@ body{
 
 #playlist table, #dynamicdata table{
 	width:100%;
+	font-size:10pt;
 }
 
 #yui-dt0-th-id, #yui-dt0-th-serverid {
@@ -154,27 +51,9 @@ width:0px;
 
 /*Playlist actions*/
 
-tr span.actions {
-	display:none;
-	width:348px;
-	position: absolute;
-	left: 0px;
-	background-color:#fff;
-	opacity:0.95;
-	text-align: center;
-}
-
-tr.yui-dt-odd span.actions{
-	background-color:#EDF5FF;
-}
-
-tr span.actions img{
-	height:24px;
+a.yuimenuitemlabel img {
 	width:24px;
-}
-tr:hover span.actions{
-	display:block;
-
+	border-style: none;
 }
 
 
