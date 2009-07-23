@@ -58,6 +58,12 @@ class SimpleHandler < Mongrel::HttpHandler
     	response.done
 	  end
 =end
+
+      if( request.params['REQUEST_PATH'] == '/break')
+      	while 1
+      		1+1
+  		end
+  	  end
 	  
 	  if( request.params['REQUEST_PATH'] == '/json_query')
 	  	get_reqs = request.params['QUERY_STRING'].split("&").map { |a| arr = a.split("="); h = {}; h[arr[0]] = arr[1]; h}.inject({}) {|a,b| a.merge(b)}

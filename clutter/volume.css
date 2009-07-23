@@ -10,3 +10,34 @@
 	height: 13px;
 	width: 120px;
 }
+
+
+.yui-h-slider{
+	top: 12px;
+	float:left;
+	clear:none;
+}
+
+#songPosition-slider-position-thumb {
+	position:absolute;
+	margin-top:-28px;
+}
+
+#songPosition-slider-position-thumb img{
+	margin-left:-18px;
+}
+
+#songPosition-slider-bg {
+	top: 10px;
+	background: url(/html/clutter/slider/gradient.png);
+	height: 20px;
+	border: 1px solid #999;
+	width:100px;
+}
+
+
+#songPosition-highlight{
+	background: url(/html/clutter/slider/gradient-invert.png) !important;
+	height: 20px !important;
+	
+}

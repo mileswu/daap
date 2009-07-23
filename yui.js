@@ -250,6 +250,56 @@ YAHOO.util.Event.addListener(window, "load", function() {
         });
 	}();
 	
+	YAHOO.example.SongPositionSlider = function() {
+		var Event = YAHOO.util.Event,
+	        Dom   = YAHOO.util.Dom,
+	        lang  = YAHOO.lang,
+	        slider, 
+	        bg="songPosition-slider-bg", posThumb="songPosition-slider-position-thumb";
+		
+	    var draglock = false;
+	        
+        var songPositionSlider = YAHOO.widget.Slider.getHorizSlider(bg, posThumb, 100, 0, 1);
+        songPositionSlider.autoSetValue = function(no) {
+        	if(draglock == false)
+        		songPositionSlider.setValue(no, true, false, true);
+        };
+                
+        songPositionSlider.autoSetMax = function(no) { //
+        	//alert(YAHOO.util.Dom.get("songPosition-highlight"));
+        	YAHOO.util.Dom.setStyle(YAHOO.util.Dom.get("songPosition-highlight"), 'width', (no) +'px');
+        	
+        	songPositionSlider.getThumb().setXConstraint(0,no,1);
+        }
+				
+	    /*var Event = YAHOO.util.Event,
+	        Dom   = YAHOO.util.Dom,
+	        lang  = YAHOO.lang,
+	        slider, 
+	        bg="songPosition-slider-bg", posThumb="songPosition-slider-position-thumb", maxThumb=("songPosition-slider-max-thumb"),
+	        valuearea="songPosition-value", textfield="songPosition-slider-converted-value"
+	
+        var songPositionSlider = YAHOO.widget.Slider.getHorizDualSlider(bg, posThumb, maxThumb, 100, 1, [0,0]);*/
+
+        // Sliders with ticks can be animated without YAHOO.util.Anim
+
+    	songPositionSlider.getThumb().subscribe("mouseDownEvent", function() {
+			draglock = true;
+    	});
+
+		/*songPositionSlider.subscribe("change", function(offset) {
+				setPositionAsPercent(songPositionSlider.minVal());
+	    	});*/
+        	
+        songPositionSlider.getThumb().subscribe("mouseUpEvent", function() {
+        	draglock = false;
+        	setPositionAsPercent(songPositionSlider.getValue());
+			//songSound.resume();
+        });
+
+		return songPositionSlider;
+	}();
+	
 	YAHOO.example.Servers = function() {
 		var state_increment = -1;
 		

@@ -1,3 +1,5 @@
+/* @override http://80.177.183.196:3001/html/clutter/toolbar.css */
+
 /* @override 
 	http://80.177.183.196:3000/html/clutter/toolbar.css
 	http://80.177.183.196:3001/html/clutter/toolbar.css
@@ -148,11 +150,6 @@
 	color: #333;
 
 }
-#slider-bg{
-	top: 12px;
-	float:left;
-	clear:none;
-	border
-}
+
 
 

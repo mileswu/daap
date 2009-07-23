@@ -47,7 +47,7 @@
 
 	<script type="text/javascript" src="/html/yui.js"></script>
 
-	<script type="text/javascript" src="/html/clutter/niftyplayer/niftyplayer.js"></script>
+	<script type="text/javascript" src="/html/clutter/soundmanager/script/soundmanager2.js"></script>
 	<script type="text/javascript" src="/html/clutter/controls.js"></script>
 	<link rel="stylesheet" type="text/css" href="/html/clutter/toolbar.css" />
 	<link rel="stylesheet" type="text/css" href="/html/clutter/controls.css" />
@@ -78,17 +78,19 @@ version: 2.7.0
 	
 	<div id="controls">
 
-		
-		<object data="/html/clutter/niftyplayer/niftyplayer.swf" width="165" height="20" id="niftyPlayer1" type="application/x-shockwave-flash">
-		 <param name="movie" value="/html/clutter/niftyplayer/niftyplayer.swf" />
-		 <param name="quality" value="high" />
-		 <param name="bgcolor" value="#ececed" />
-		 
-		</object>
 		<div id="buttonGroup">
 			<img id="stopButton" class="button" src="/html/clutter/icons/stop.png" alt="Stop" title="Stop" onclick="stopAndDeselect();"/>				
 			<img id="playPauseToggleButton" class="button" src="/html/clutter/icons/pause.png" alt="Toggle Play/Pause" title="Pause" onclick="playPauseAction();" />				
 			<img id="nextButton" class="button" src="/html/clutter/icons/next.png" alt="Skip Song" title="Skip Song"  onclick="playNextSong();" />
+		</div>
+
+		<div id="songPosition-slider-bg" class="yui-h-slider" tabindex="-1" title="Slider">
+			<div id="songPosition-highlight"></div>
+			<div id="songPosition-slider-position-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/position.png" alt="Slider" /></div>
+			
+    		<!---<div id="songPosition-slider-position-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/slider-bttn.png" alt="Slider" /></div>
+    		<div id="songPosition-slider-max-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/slider-bttn.png" alt="Slider" /></div>-->
+
 		</div>
 		
 		<div id="slider-bg" class="yui-h-slider" tabindex="-1" title="Slider">
@@ -150,6 +152,8 @@ version: 2.7.0
 		<div class="miniToolbar"><p>Now Playing</p></div>
 		
 		<div id="playlist"></div>
+		
+		<div id="soundmanager-debug"></div>
 	</div>
 	
 	<div id="rightPanel">
