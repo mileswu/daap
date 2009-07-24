@@ -93,9 +93,10 @@ version: 2.7.0
 		</div>		
 
 		<div id="buttonGroup">
+			<img id="previousButton" class="button" src="/html/clutter/icons/previous.png" alt="Previous Song" title="Previous Song"  onclick="playRelSong(-1);" />
 			<img id="stopButton" class="button" src="/html/clutter/icons/stop.png" alt="Stop" title="Stop" onclick="stopAndDeselect();"/>				
 			<img id="playPauseToggleButton" class="button" src="/html/clutter/icons/pause.png" alt="Toggle Play/Pause" title="Pause" onclick="playPauseAction();" />				
-			<img id="nextButton" class="button" src="/html/clutter/icons/next.png" alt="Skip Song" title="Skip Song"  onclick="playNextSong();" />
+			<img id="nextButton" class="button" src="/html/clutter/icons/next.png" alt="Skip Song" title="Next Song"  onclick="playRelSong(1);" />
 		</div>
 
 

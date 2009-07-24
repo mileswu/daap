@@ -82,7 +82,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
         	dynamicData: true, // Enables dynamic server-driven data
         	sortedBy : {key:"artist", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
         	paginator:p, // Enables pagination 
-        	generateRequest : myRequestBuilder
+        	generateRequest : myRequestBuilder,
+			MSG_EMPTY: "No songs found. <a href='#' onClick='document.getElementById('preferencesPanel').style.visibility='visible''>Click here</a> to check sources."
     	};
     	
 		
@@ -111,6 +112,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
 			return true
 		}
 		myDataTable.subscribe("rowClickEvent", myDataTable.onEventSelectRow); 
+		myDataTable.subscribe("rowMouseoverEvent",myDataTable.onEventHighlightRow);   
+       	myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);   
 		
 	
 		var getTerms = function(query) {
@@ -174,7 +177,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
         
         
 		var myDataTable = new YAHOO.widget.DataTable("playlist",
-                myColumnDefs, myDataSource, {selectionMode:"single"});
+                myColumnDefs, myDataSource, {selectionMode:"single",
+                							MSG_EMPTY: "Select songs from the library to start playing."
+            });
                 
        myDataTable.subscribe("rowMouseoverEvent",myDataTable.onEventHighlightRow);   
        myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);   
@@ -303,7 +308,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
         	
         songPositionSlider.getThumb().subscribe("mouseUpEvent", function() {
         	draglock = false;
-        	setPositionAsPercent(songPositionSlider.getValue());
+			value = songPositionSlider.getValue()*100/document.getElementById('songPosition-slider-bg').offsetWidth;
+        	setPositionAsPercent(value);
 			//songSound.resume();
         });
 
@@ -348,7 +354,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	    };
 	    myDataSource.maxCacheEntries = 0;
 
-	    var myDataTable = new YAHOO.widget.DataTable("servers", myColumnDefs, myDataSource, {initialRequest:""});
+	    var myDataTable = new YAHOO.widget.DataTable("servers", myColumnDefs, myDataSource, {initialRequest:"",MSG_EMPTY: "No sources added."
+		});
 	    
 	    var callback = { 
 	     	success: myDataTable.onDataReturnInitializeTable,

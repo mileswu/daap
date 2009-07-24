@@ -56,12 +56,12 @@ function stopAndDeselect(){
 	}
 	
 	songSound.destruct()
-
+	currentRecord = {};
 	delayedUpdate();
 }
 
 function playPauseAction(){
-	if(soundManager.getSoundById('songSound') == null){//Check This Line, destroy() behaviour unknown
+	if(soundManager.getSoundById('songSound') == null){
 		loadAndPlay();
 	}
 	else {
@@ -79,17 +79,16 @@ function getCurrentSelected() {
 
 function loadAndPlay() {
 	var current = getCurrentSelected();
+	if(current == null) {
+		stopAndDeselect();
+		return;
+	}
 	var cdata = current.getData();
 	if(currentRecord["id"] == cdata["id"] && currentRecord["serverid"] == cdata["serverid"] && currentRecord["rid"] == current.getId())
 		 return;
 	currentRecord = cdata;
 	currentRecord["rid"] = current.getId();
-	
-	
-	if(current == null){
-		stopAndDeselect();
-	} else{
-		
+
 		if(soundManager.getSoundById('songSound') != null){
 			songSound.destruct()
 		}
@@ -103,22 +102,27 @@ function loadAndPlay() {
 			onstop:delayedUpdate,
 			whileplaying:loadAndPlayingCallback,
 			whileloading:loadAndPlayingCallback,
-			onfinish:playNextSong
+			onfinish:function (){playRelSong(1);}
 		})
 
 		songSound.play()
-	}
 
 	delayedUpdate();
 }
 
-function playNextSong(){
+function playRelSong(diff) {
 	var r = getCurrentSelected();
 	if(r == null)
 		return;
 	var index = YAHOO.example.PlaylistTable.oDT.getRecordIndex(r);
 	YAHOO.example.PlaylistTable.oDT.unselectRow(index);
-	YAHOO.example.PlaylistTable.oDT.selectRow(index+1);
+	YAHOO.example.PlaylistTable.oDT.selectRow(index+diff);
+	if((index+diff+1) > YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength())
+		stopAndDeselect();
+	else if((index+diff) < 0)
+		stopAndDeselect();
+	else
+		YAHOO.example.PlaylistTable.oDT.selectRow(index+diff);
 }
 
 function updateButtonStates(){
@@ -127,10 +131,7 @@ function updateButtonStates(){
 	if(soundManager.getSoundById('songSound') == null){
 
 		document.getElementById('stopButton').src = "/html/clutter/icons/disabled/stop.png"
-
-		//Can we start the playlist though?
-		if(oDT.getRecordSet().getLength() > 0){document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/play.png"}
-		else{document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/disabled/play.png"}
+		document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/disabled/play.png"
 
 		YAHOO.example.SongPositionSlider.autoSetMax(0);
 		YAHOO.example.SongPositionSlider.autoSetValue(0);
@@ -144,8 +145,14 @@ function updateButtonStates(){
 		else{document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/pause.png"}
 	}
 
-	if(oDT.getRecordSet().getLength() > 0){document.getElementById('nextButton').src = "/html/clutter/icons/next.png"}
-	else{document.getElementById('nextButton').src = "/html/clutter/icons/disabled/next.png"}
+
+	if(getCurrentSelected() != null){
+		document.getElementById('nextButton').src = "/html/clutter/icons/next.png"
+		document.getElementById('previousButton').src = "/html/clutter/icons/previous.png"
+	}else{
+		document.getElementById('nextButton').src = "/html/clutter/icons/disabled/next.png"
+		document.getElementById('previousButton').src = "/html/clutter/icons/disabled/previous.png"
+	}
 
 	setCurrentlyPlaying();
 }
@@ -168,7 +175,7 @@ function setPositionAsPercent(percent){
 		if(targetPosition < songSound.duration){
 			songSound.setPosition(targetPosition)
 		}else{//Sorry
-			YAHOO.example.SongPositionSlider.setValue((songSound.position/durationEstimate)*100, true, true, true)
+			//YAHOO.example.SongPositionSlider.setValue((songSound.position/durationEstimate)*100, true, true, true)
 		}
 	}
 }

@@ -85,10 +85,11 @@
 .panel #addServerDiv{
 		height:32px;
 		padding-top:9px;
+	text-align:right;
 }
 
 .panel #addServerDiv input{
-	width:200px;
+	width:25%;
 	margin-left:5px;
 	margin-right:5px;
 	font-size:13px;
