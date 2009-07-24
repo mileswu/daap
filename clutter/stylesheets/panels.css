@@ -1,12 +1,11 @@
 /* @override 
-	http://80.177.183.196:3000/html/clutter/panel.css
-	http://80.177.183.196:3001/html/clutter/panel.css
+	http://80.177.183.196:3001/html/clutter/stylesheets/panels.css
 */
 
 .panel{
 	position:fixed;
 	width: 40%;
-	min-width: 450px;;
+	min-width: 450px;
 	margin-left:30%;
 	margin-right:30%;
 	background-color: #eaeaea;
@@ -24,7 +23,7 @@
 	box-shadow: 0px 0px 5px #888;
 	padding: 10px;
 	font-family: Garamond, Palatino;
-
+	z-index:5;
 }
 
 .panel .button{

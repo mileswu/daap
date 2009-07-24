@@ -47,12 +47,14 @@
 
 	<script type="text/javascript" src="/html/yui.js"></script>
 
-	<script type="text/javascript" src="/html/clutter/soundmanager/script/soundmanager2.js"></script>
+	<script type="text/javascript" src="/html/clutter/soundmanager/script/soundmanager2-nodebug-jsmin.js"></script>
 	<script type="text/javascript" src="/html/clutter/controls.js"></script>
-	<link rel="stylesheet" type="text/css" href="/html/clutter/toolbar.css" />
-	<link rel="stylesheet" type="text/css" href="/html/clutter/controls.css" />
-	<link rel="stylesheet" type="text/css" href="/html/clutter/panel.css" />
-	<link rel="stylesheet" type="text/css" href="/html/clutter/volume.css" />
+	
+	<link rel="stylesheet" type="text/css" href="/html/clutter/stylesheets/baseLayout.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/stylesheets/toolbar.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/stylesheets/miniToolbar.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/stylesheets/sliders.css" />
+	<link rel="stylesheet" type="text/css" href="/html/clutter/stylesheets/panels.css" />
 
 	
 <style type="text/css">
@@ -77,13 +79,7 @@ version: 2.7.0
 <body class="yui-skin-sam">
 	
 	<div id="controls">
-
-		<div id="buttonGroup">
-			<img id="stopButton" class="button" src="/html/clutter/icons/stop.png" alt="Stop" title="Stop" onclick="stopAndDeselect();"/>				
-			<img id="playPauseToggleButton" class="button" src="/html/clutter/icons/pause.png" alt="Toggle Play/Pause" title="Pause" onclick="playPauseAction();" />				
-			<img id="nextButton" class="button" src="/html/clutter/icons/next.png" alt="Skip Song" title="Skip Song"  onclick="playNextSong();" />
-		</div>
-
+		
 		<div id="songPosition-slider-bg" class="yui-h-slider" tabindex="-1" title="Slider">
 			<div id="songPosition-highlight"></div>
 			<div id="songPosition-slider-position-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/position.png" alt="Slider" /></div>
@@ -91,8 +87,15 @@ version: 2.7.0
     		<!---<div id="songPosition-slider-position-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/slider-bttn.png" alt="Slider" /></div>
     		<div id="songPosition-slider-max-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/slider-bttn.png" alt="Slider" /></div>-->
 
+		</div>		
+
+		<div id="buttonGroup">
+			<img id="stopButton" class="button" src="/html/clutter/icons/stop.png" alt="Stop" title="Stop" onclick="stopAndDeselect();"/>				
+			<img id="playPauseToggleButton" class="button" src="/html/clutter/icons/pause.png" alt="Toggle Play/Pause" title="Pause" onclick="playPauseAction();" />				
+			<img id="nextButton" class="button" src="/html/clutter/icons/next.png" alt="Skip Song" title="Skip Song"  onclick="playNextSong();" />
 		</div>
-		
+
+
 		<div id="slider-bg" class="yui-h-slider" tabindex="-1" title="Slider">
     		<div id="slider-thumb" class="yui-slider-thumb"><img src="/html/clutter/slider/slider-bttn.png" alt="Slider" /></div>
 		</div>
@@ -106,7 +109,6 @@ version: 2.7.0
 	
 		
 		<div id="rightGroup">
-		<img id="healthIndicator" src="/html/clutter/icons/smiley.png" alt="Health icon" />				
 		<img id="settingsButton" class="button" onclick="document.getElementById('preferencesPanel').style.visibility='visible'" src="/html/clutter/icons/server.png" alt="Config" />				
 		<img id="infoButton" class="button" onclick="document.getElementById('aboutPanel').style.visibility='visible'" src="/html/clutter/icons/info.png" alt="Info" />	
 		</div>
@@ -148,15 +150,15 @@ version: 2.7.0
 	</div>
 	
 	
-	<div id="leftPanel">
+	<div id="leftPane" class="pane">
 		<div class="miniToolbar"><p>Now Playing</p></div>
-		
-		<div id="playlist"></div>
-		
-		<div id="soundmanager-debug"></div>
+		<div class="paneContent">
+			<div id="playlist"></div>
+		</div>
+
 	</div>
 	
-	<div id="rightPanel">
+	<div id="rightPane">
 		<div class="miniToolbar">
 			<div id="autocomplete">   
      			<label label-for="dt_input">Search:</label><input id="dt_input" type="text" value=""/>
@@ -165,11 +167,8 @@ version: 2.7.0
 			<div id="paginator">
 			</div>
 		</div>
-		<div id="dynamicdata"></div> 
-		
-		<div class="miniToolbar">
-			<div id="paginator2">
-			</div>
+		<div class="paneContent">
+			<div id="dynamicdata"></div> 
 		</div>
 		
 	</div>

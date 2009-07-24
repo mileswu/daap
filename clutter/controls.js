@@ -1,20 +1,17 @@
 var songSound;
+soundManager.url="/html/clutter/soundmanager/swf/"
 
 function addToQueueFromRecord(oRecord){
 	YAHOO.example.PlaylistTable.oDT.addRow({id:oRecord.getData("id"), serverid:oRecord.getData("serverid"), title:oRecord.getData("title"), album:oRecord.getData("album"), artist:oRecord.getData("artist")});
-
 
 	if(YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength() == 1){
 		loadAndPlayFirstInQueue();
 	}
 
-	delayedUpdate();
 }
 
 
 YAHOO.util.Event.addListener(window, "load", function() {
-
-
 	delayedUpdate();
 });
 
@@ -22,30 +19,32 @@ function setVolume1(vol) {
 	if(soundManager.getSoundById('songSound') != null){
 		songSound.setVolume(vol);
 	}
+
+	soundManager.defaultOptions['volume'] = vol;
 }
 
 
 function delayedUpdate(){
-	//updateButtonStates()
 	setTimeout(updateButtonStates,110);
 	setTimeout(updateButtonStates,250);
 	setTimeout(updateButtonStates,325);
+	setTimeout(updateButtonStates,650);
+	setTimeout(updateButtonStates,1050);
+	setTimeout(updateButtonStates,1400);
+	setTimeout(updateButtonStates,1900);
 }
+
 
 function setCurrentlyPlaying(){//Have to assume that either queue[0] is playing, or nothing is.
 	if(soundManager.getSoundById('songSound') == null){
-		function setCurrentlyPlaying(){//Have to assume that either queue[0] is playing, or nothing is.
-			if(soundManager.getSoundById('songSound') == null){
-				document.getElementById('trackTitle').innerHTML = "";
-				document.getElementById('trackAlbum').innerHTML = "";
-				document.getElementById('trackArtist').innerHTML = "";
-			}else{
-				var song = YAHOO.example.PlaylistTable.oDT.getRecord(0).getData();
-				document.getElementById('trackTitle').innerHTML = song["title"];
-				document.getElementById('trackAlbum').innerHTML = song["album"];
-				document.getElementById('trackArtist').innerHTML = song["artist"];
-			}
-		}
+		document.getElementById('trackTitle').innerHTML = "";
+		document.getElementById('trackAlbum').innerHTML = "";
+		document.getElementById('trackArtist').innerHTML = "";
+	}else{
+		var song = YAHOO.example.PlaylistTable.oDT.getRecord(0).getData();
+		document.getElementById('trackTitle').innerHTML = song["title"];
+		document.getElementById('trackAlbum').innerHTML = song["album"];
+		document.getElementById('trackArtist').innerHTML = song["artist"];
 	}
 }
 
@@ -63,13 +62,11 @@ function playPauseAction(){
 	}
 }
 
-function setHealthIndicator(image){
-	document.getElementById("healthIndicator").setAttribute("src","/html/clutter/icons/"+image+".png");
-}
 
 
 function loadAndPlayFirstInQueue(){
 	current = YAHOO.example.PlaylistTable.oDT.getRecord(0);
+	
 	if(current == null){
 		stopAndDeselect();
 	}else{
@@ -89,7 +86,6 @@ function loadAndPlayFirstInQueue(){
 			onfinish:playNextSong
 		})
 
-
 		songSound.play()
 	}
 
@@ -104,19 +100,17 @@ function playNextSong(){
 function updateButtonStates(){
 	oDT = YAHOO.example.PlaylistTable.oDT;
 
-	topOfThePlaylist = oDT.getRecord(0);
-
 	if(soundManager.getSoundById('songSound') == null){
 
 		document.getElementById('stopButton').src = "/html/clutter/icons/disabled/stop.png"
 
 		//Can we start the playlist though?
-		if(topOfThePlaylist != null){document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/play.png"}
+		if(oDT.getRecordSet().getLength() > 0){document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/play.png"}
 		else{document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/disabled/play.png"}
-				
+
 		YAHOO.example.SongPositionSlider.autoSetMax(0);
 		YAHOO.example.SongPositionSlider.autoSetValue(0);
-		
+
 
 	}else{
 		document.getElementById('stopButton').src = "/html/clutter/icons/stop.png"
@@ -126,7 +120,7 @@ function updateButtonStates(){
 		else{document.getElementById('playPauseToggleButton').src = "/html/clutter/icons/pause.png"}
 	}
 
-	if(topOfThePlaylist != null){document.getElementById('nextButton').src = "/html/clutter/icons/next.png"}
+	if(oDT.getRecordSet().getLength() > 0){document.getElementById('nextButton').src = "/html/clutter/icons/next.png"}
 	else{document.getElementById('nextButton').src = "/html/clutter/icons/disabled/next.png"}
 
 	setCurrentlyPlaying();
@@ -135,10 +129,8 @@ function updateButtonStates(){
 function loadAndPlayingCallback(){
 	durationEstimate = songSound.duration*songSound.bytesTotal/songSound.bytesLoaded
 
-	//alert(Math.round((songSound.duration/durationEstimate)*100));
 	YAHOO.example.SongPositionSlider.autoSetMax((songSound.duration/durationEstimate)*100);
 	YAHOO.example.SongPositionSlider.autoSetValue((songSound.position/durationEstimate)*100);
-	//YAHOO.example.SongPositionSlider.setValues(Math.round((songSound.position/durationEstimate)*100), Math.round((songSound.duration/durationEstimate)*100), true, true, true)
 }
 
 
@@ -151,79 +143,76 @@ function setPositionAsPercent(percent){
 		//Can only seek within loaded sound data, as defined by the duration property.
 		if(targetPosition < songSound.duration){
 			songSound.setPosition(targetPosition)
-			}else{//Sorry
-				YAHOO.example.SongPositionSlider.setMinValue((songSound.position/durationEstimate)*100, true, true, true)
-			}
+		}else{//Sorry
+			YAHOO.example.SongPositionSlider.setMinValue((songSound.position/durationEstimate)*100, true, true, true)
 		}
 	}
+}
 
+function delete_from_playlist(id) {
+	var skip = 0;
+	if(YAHOO.example.PlaylistTable.oDT.getRecordIndex(id) == 0) {
+		skip = 1;
+		if(YAHOO.example.PlaylistTable.oDT.getRecord(1) == null)
+		skip = 2;
+	}
 
-	/* */
+	YAHOO.example.PlaylistTable.oDT.deleteRow(id);
 
-	function delete_from_playlist(id) {
-		var skip = 0;
-		if(YAHOO.example.PlaylistTable.oDT.getRecordIndex(id) == 0) {
-			skip = 1;
-			if(YAHOO.example.PlaylistTable.oDT.getRecord(1) == null)
-			skip = 2;
-		}
+	if(skip == 1)
+	loadAndPlayFirstInQueue();
+	else if(skip == 2)
+	stopAndDeselect();
+}
 
-		YAHOO.example.PlaylistTable.oDT.deleteRow(id);
+function move(id, is_up) {
+	var pos = YAHOO.example.PlaylistTable.oDT.getRecordIndex(id);
+	var length = YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength()
+	if(pos == 0 && is_up == 1) //top
+	return;
+	if(pos == (length-1) && is_up == 0) //bottom
+	return;
+	if(length < 2)
+	return;
 
-		if(skip == 1)
+	var record = YAHOO.example.PlaylistTable.oDT.getRecord(id).getData();
+	delete_from_playlist(id);
+
+	if(is_up == 1)
+	{
+		YAHOO.example.PlaylistTable.oDT.addRow(record, pos - 1);
+		if(pos == 1) //reached the top
 		loadAndPlayFirstInQueue();
-		else if(skip == 2)
-		stopAndDeselect();
 	}
+	else
+	YAHOO.example.PlaylistTable.oDT.addRow(record, pos + 1);
+}
+function delete_daap(index) {
+	var id = YAHOO.example.Servers.oDT.getRecord(index).getData("id");
 
-	function move(id, is_up) {
-		var pos = YAHOO.example.PlaylistTable.oDT.getRecordIndex(id);
-		var length = YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength()
-		if(pos == 0 && is_up == 1) //top
-		return;
-		if(pos == (length-1) && is_up == 0) //bottom
-		return;
-		if(length < 2)
-		return;
+	var add_remove_callback = function(o)
+	{ YAHOO.example.Servers.oDT.requery(""); }
 
-		var record = YAHOO.example.PlaylistTable.oDT.getRecord(id).getData();
-		delete_from_playlist(id);
+	var callback = {
+		success: add_remove_callback,
+		failure: add_remove_callback,
+		argument: { }
+	};
 
-		if(is_up == 1)
-		{
-			YAHOO.example.PlaylistTable.oDT.addRow(record, pos - 1);
-			if(pos == 1) //reached the top
-			loadAndPlayFirstInQueue();
-		}
-		else
-		YAHOO.example.PlaylistTable.oDT.addRow(record, pos + 1);
-	}
-	function delete_daap(index) {
-		var id = YAHOO.example.Servers.oDT.getRecord(index).getData("id");
+	var request = YAHOO.util.Connect.asyncRequest('GET', "/delete?id=" + id, callback);
+}
 
-		var add_remove_callback = function(o)
-		{ YAHOO.example.Servers.oDT.requery(""); }
-
-		var callback = {
-			success: add_remove_callback,
-			failure: add_remove_callback,
-			argument: { }
-		};
-
-		var request = YAHOO.util.Connect.asyncRequest('GET', "/delete?id=" + id, callback);
-	}
-
-	function add_daap(add, nick) {
-		var add_remove_callback = function(o) {
-			YAHOO.example.Servers.oDT.requery("");
-		}
-
-		var callback = {
-			success: add_remove_callback,
-			failure: add_remove_callback,
-			argument: { }
-		};
-
-		var request = YAHOO.util.Connect.asyncRequest('GET', "/add?address=" + add + "&nickname=" + nick, callback);
+function add_daap(add, nick) {
+	var add_remove_callback = function(o) {
 		YAHOO.example.Servers.oDT.requery("");
 	}
+
+	var callback = {
+		success: add_remove_callback,
+		failure: add_remove_callback,
+		argument: { }
+	};
+
+	var request = YAHOO.util.Connect.asyncRequest('GET', "/add?address=" + add + "&nickname=" + nick, callback);
+	YAHOO.example.Servers.oDT.requery("");
+}

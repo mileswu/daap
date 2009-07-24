@@ -232,7 +232,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	    var scaleFactor = 1;
 	    // The amount the slider moves when the value is changed with the arrow keys
 	    var keyIncrement = 20;
-	    var tickSize = 10;
+	    var tickSize = 5;
 		
         slider = YAHOO.widget.Slider.getHorizSlider(bg, 
                          thumb, topConstraint, bottomConstraint, tickSize);
@@ -261,12 +261,14 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	        
         var songPositionSlider = YAHOO.widget.Slider.getHorizSlider(bg, posThumb, 100, 0, 1);
         songPositionSlider.autoSetValue = function(no) {
+			no = no*document.getElementById('songPosition-slider-bg').offsetWidth/100
         	if(draglock == false)
         		songPositionSlider.setValue(no, true, false, true);
         };
                 
         songPositionSlider.autoSetMax = function(no) { //
         	//alert(YAHOO.util.Dom.get("songPosition-highlight"));
+			no = no*document.getElementById('songPosition-slider-bg').offsetWidth/100
         	YAHOO.util.Dom.setStyle(YAHOO.util.Dom.get("songPosition-highlight"), 'width', (no) +'px');
         	
         	songPositionSlider.getThumb().setXConstraint(0,no,1);

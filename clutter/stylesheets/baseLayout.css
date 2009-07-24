@@ -1,0 +1,53 @@
+/* @override http://80.177.183.196:3001/html/clutter/stylesheets/baseLayout.css */
+
+body{
+	padding-top:41px;
+	margin-left:0px;
+	margin-right:0px;
+	background-color: #e6e6e6;
+}
+
+/* Panes */
+
+.pane{
+ 	position:fixed;
+ 	top: 50px;
+	bottom: 0px;
+	overflow:hidden;
+}
+
+.paneContent{
+	overflow:auto;
+	position:absolute;
+	left:0px;
+	top:30px;
+	right:0;
+	bottom:0px;
+}
+
+#leftPane{
+	width:350px;
+}
+
+#rightPane{
+	border-left: 2px ridge #808080;
+	position:fixed;
+	top: 50px;
+	bottom: 0px;
+	left:350px;
+	right:0;
+}
+
+
+
+#playlist table, #dynamicdata table{
+	width:100%;
+	font-size:10pt;
+}
+
+/*Playlist actions*/
+
+a.yuimenuitemlabel img {
+	width:24px;
+	border-style: none;
+}

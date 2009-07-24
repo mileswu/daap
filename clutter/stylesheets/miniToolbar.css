@@ -1,0 +1,97 @@
+/* @override http://80.177.183.196:3001/html/clutter/stylesheets/miniToolbar.css */
+
+.miniToolbar{
+	background-color: #ddd;
+	border-bottom: 1px solid #666;
+	padding-left: 10px;
+	padding-top:4px;
+	top:0px;
+	height:25px;
+}
+
+.bottomMT{
+	position:absolute;
+	top:100%;
+	margin-top:-30px;
+	right:0px;
+	left:0px;
+	z-index:1;
+}
+
+.miniToolbar{
+	font-size: 14px;
+	font-weight: bold;
+	font-family: 'Lucida Grande', Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+	color: rgb(34, 34, 34);
+}
+
+.miniToolbar p{
+	padding:0;
+	margin:0;
+	padding-top:2px;
+	padding-right:5px;
+	float:left;
+}
+
+.miniToolbar #dt_input{
+	line-height: 12px;
+	font-size: 12px;
+	margin-left: 4px;
+	margin-right: 5px;
+
+	border: 1px solid #b3b3b3;
+	width:15em;
+}
+.miniToolbar div{
+	display:inline;
+}
+
+/*Paginator needs coercion*/
+.miniToolbar div#paginator,
+.miniToolbar div#paginator2{
+	margin: 0;
+	padding: 0 0 0 7px;
+	display:inline;
+}
+
+.miniToolbar div#paginator{
+	padding-left: 6px;
+	border-left: 1px solid #999;
+}
+
+#yui-pg0-0-page-report {
+	color: #333;
+}
+
+/*.yui-pg-next, .yui-pg-previous{
+	width: 31px;
+	height: 21px;
+	padding: 0 !important;
+	overflow:hidden;
+	color: rgba(255,255,255,0) !important;
+}
+.yui-pg-next {
+	background: url(/html/clutter/backForwardSprite.png) scroll 31px 22px;
+}
+
+a.yui-pg-next {
+	background: url(/html/clutter/backForwardSprite.png) scroll 31px 43px;
+}
+
+a.yui-pg-next:active {
+	background: url(/html/clutter/backForwardSprite.png) scroll 31px -2px;
+}
+
+.yui-pg-previous {
+	background: url(/html/clutter/backForwardSprite.png) scroll -1px 22px;
+}
+
+a.yui-pg-previous {
+	background: url(/html/clutter/backForwardSprite.png) scroll -1px 43px;
+}
+
+a.yui-pg-previous:active {
+	background: url(/html/clutter/backForwardSprite.png) scroll -1px -2px;
+}*/
+
