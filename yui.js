@@ -174,7 +174,15 @@ YAHOO.util.Event.addListener(window, "load", function() {
         
         
 		var myDataTable = new YAHOO.widget.DataTable("playlist",
-                myColumnDefs, myDataSource);
+                myColumnDefs, myDataSource, {selectionMode:"single"});
+                
+       myDataTable.subscribe("rowMouseoverEvent",myDataTable.onEventHighlightRow);   
+       myDataTable.subscribe("rowMouseoutEvent", myDataTable.onEventUnhighlightRow);   
+       myDataTable.subscribe("rowClickEvent", myDataTable.onEventSelectRow);
+       myDataTable.subscribe("rowSelectEvent", function(e, r) {
+       		loadAndPlay();
+   		});
+       
 
 		var onContextMenuClick = function(p_sType, p_aArgs, p_myDataTable) { 
 			var task = p_aArgs[1]; 

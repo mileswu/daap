@@ -1,11 +1,12 @@
 var songSound;
 soundManager.url="/html/clutter/soundmanager/swf/"
+var currentRecord = {};
 
 function addToQueueFromRecord(oRecord){
 	YAHOO.example.PlaylistTable.oDT.addRow({id:oRecord.getData("id"), serverid:oRecord.getData("serverid"), title:oRecord.getData("title"), album:oRecord.getData("album"), artist:oRecord.getData("artist")});
 
-	if(YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength() == 1){
-		loadAndPlayFirstInQueue();
+	if(YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength() == 1) {
+		YAHOO.example.PlaylistTable.oDT.selectRow(0);
 	}
 
 }
@@ -41,7 +42,7 @@ function setCurrentlyPlaying(){//Have to assume that either queue[0] is playing,
 		document.getElementById('trackAlbum').innerHTML = "";
 		document.getElementById('trackArtist').innerHTML = "";
 	}else{
-		var song = YAHOO.example.PlaylistTable.oDT.getRecord(0).getData();
+		var song =  getCurrentSelected().getData();
 		document.getElementById('trackTitle').innerHTML = song["title"];
 		document.getElementById('trackAlbum').innerHTML = song["album"];
 		document.getElementById('trackArtist').innerHTML = song["artist"];
@@ -49,6 +50,11 @@ function setCurrentlyPlaying(){//Have to assume that either queue[0] is playing,
 }
 
 function stopAndDeselect(){
+	var r = getCurrentSelected();
+	if(r) {
+		YAHOO.example.PlaylistTable.oDT.unselectRow(YAHOO.example.PlaylistTable.oDT.getRecordIndex(r));
+	}
+	
 	songSound.destruct()
 
 	delayedUpdate();
@@ -56,20 +62,34 @@ function stopAndDeselect(){
 
 function playPauseAction(){
 	if(soundManager.getSoundById('songSound') == null){//Check This Line, destroy() behaviour unknown
-		loadAndPlayFirstInQueue();
-	}else{
-		songSound.togglePause()
+		loadAndPlay();
+	}
+	else {
+		songSound.togglePause();
 	}
 }
 
+function getCurrentSelected() {
+	var rid = YAHOO.example.PlaylistTable.oDT.getSelectedRows()[0]
+	if(rid)
+		return YAHOO.example.PlaylistTable.oDT.getRecord(rid);
+	else
+		return null;
+}
 
-
-function loadAndPlayFirstInQueue(){
-	current = YAHOO.example.PlaylistTable.oDT.getRecord(0);
+function loadAndPlay() {
+	var current = getCurrentSelected();
+	var cdata = current.getData();
+	if(currentRecord["id"] == cdata["id"] && currentRecord["serverid"] == cdata["serverid"] && currentRecord["rid"] == current.getId())
+		 return;
+	currentRecord = cdata;
+	currentRecord["rid"] = current.getId();
+	
 	
 	if(current == null){
 		stopAndDeselect();
-	}else{
+	} else{
+		
 		if(soundManager.getSoundById('songSound') != null){
 			songSound.destruct()
 		}
@@ -93,8 +113,12 @@ function loadAndPlayFirstInQueue(){
 }
 
 function playNextSong(){
-	YAHOO.example.PlaylistTable.oDT.deleteRow(0);
-	loadAndPlayFirstInQueue();
+	var r = getCurrentSelected();
+	if(r == null)
+		return;
+	var index = YAHOO.example.PlaylistTable.oDT.getRecordIndex(r);
+	YAHOO.example.PlaylistTable.oDT.unselectRow(index);
+	YAHOO.example.PlaylistTable.oDT.selectRow(index+1);
 }
 
 function updateButtonStates(){
@@ -144,49 +168,50 @@ function setPositionAsPercent(percent){
 		if(targetPosition < songSound.duration){
 			songSound.setPosition(targetPosition)
 		}else{//Sorry
-			YAHOO.example.SongPositionSlider.setMinValue((songSound.position/durationEstimate)*100, true, true, true)
+			YAHOO.example.SongPositionSlider.setValue((songSound.position/durationEstimate)*100, true, true, true)
 		}
 	}
 }
 
 function delete_from_playlist(id) {
-	var skip = 0;
-	if(YAHOO.example.PlaylistTable.oDT.getRecordIndex(id) == 0) {
-		skip = 1;
-		if(YAHOO.example.PlaylistTable.oDT.getRecord(1) == null)
-		skip = 2;
-	}
+	var r = getCurrentSelected();
+	var rindex = YAHOO.example.PlaylistTable.oDT.getRecordIndex(r);
 
 	YAHOO.example.PlaylistTable.oDT.deleteRow(id);
 
-	if(skip == 1)
-	loadAndPlayFirstInQueue();
-	else if(skip == 2)
-	stopAndDeselect();
+	if(r.getId() == id) {
+		stopAndDeselect();
+		YAHOO.example.PlaylistTable.oDT.selectRow(rindex);
+	}
 }
 
 function move(id, is_up) {
 	var pos = YAHOO.example.PlaylistTable.oDT.getRecordIndex(id);
 	var length = YAHOO.example.PlaylistTable.oDT.getRecordSet().getLength()
 	if(pos == 0 && is_up == 1) //top
-	return;
+		return;
 	if(pos == (length-1) && is_up == 0) //bottom
-	return;
+		return;
 	if(length < 2)
-	return;
+		return;
 
 	var record = YAHOO.example.PlaylistTable.oDT.getRecord(id).getData();
-	delete_from_playlist(id);
-
+	var cur = getCurrentSelected();
+	var newpos;
+	
 	if(is_up == 1)
-	{
-		YAHOO.example.PlaylistTable.oDT.addRow(record, pos - 1);
-		if(pos == 1) //reached the top
-		loadAndPlayFirstInQueue();
-	}
+		newpos = pos - 1;
 	else
-	YAHOO.example.PlaylistTable.oDT.addRow(record, pos + 1);
+		newpos = pos + 1;
+	
+	YAHOO.example.PlaylistTable.oDT.deleteRow(id);
+	YAHOO.example.PlaylistTable.oDT.addRow(record, newpos);
+	if(cur.getId() == id)	{
+		currentRecord["rid"] = YAHOO.example.PlaylistTable.oDT.getRecord(newpos).getId();
+		YAHOO.example.PlaylistTable.oDT.selectRow(newpos);
+	}
 }
+
 function delete_daap(index) {
 	var id = YAHOO.example.Servers.oDT.getRecord(index).getData("id");
 
