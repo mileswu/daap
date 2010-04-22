@@ -1,5 +1,19 @@
 require 'net/http'
 
+class String
+  alias :oldcmp :<=>
+  def <=>(b)
+    a = self.lstrip
+    b = b.lstrip
+
+    return 0 if (a == "" and b == "")
+    return 1 if (a == "")
+    return -1 if (b == "")
+    return a.oldcmp(b)
+  end
+end
+
+
 module Net
 
   class HTTP
@@ -283,14 +297,15 @@ def sort(mstr)
 end
 
 
-for s in [['localhost', 'mileswu']]#,['86.150.102.214', 'zetetic']]#, 'licht.stupidpupil.co.uk']
-	connect(s[0],s[1],true)
-end
+#for s in [['localhost', 'mileswu']]#,['86.150.102.214', 'zetetic']]#, 'licht.stupidpupil.co.uk']
+#	connect(s[0],s[1],true)
+#end
 
 sort($master)
 
 h = Mongrel::HttpServer.new("0.0.0.0", "3001")
 h.register("/", SimpleHandler.new)
 h.register("/html", Mongrel::DirHandler.new("."))
+h.register("/datum", Mongrel::DirHandler.new("/mnt/raid/Music"))
 puts "Listening"
 h.run.join

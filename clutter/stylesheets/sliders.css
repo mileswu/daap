@@ -1,5 +1,7 @@
 /* @override http://80.177.183.196:3001/html/clutter/stylesheets/sliders.css */
 
+/* @override http://80.177.183.196:3001/html/clutter/stylesheets/sliders.css */
+
 .yui-h-slider,.yui-v-slider {
 	position: relative;
 	cursor:default;
@@ -15,6 +17,7 @@
 	float:left;
 	clear:none;
 	overflow: hidden;
+	margin-right:5px;
 
 }
 

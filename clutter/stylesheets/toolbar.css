@@ -1,3 +1,5 @@
+/* @override http://80.177.183.196:3001/html/clutter/stylesheets/toolbar.css */
+
 #controls{
 	padding: 5px;
 	position: fixed;
@@ -19,10 +21,7 @@
 }
 
 #controls #buttonGroup{
-	border-right: 1px dotted #666;
-	clear: none;
-	height:37px;
-	
+	border-right: 1px dotted #666;	height:37px;
 	float:left;
 	clear:none;
 	padding-right:5px;
@@ -39,18 +38,16 @@
 }
 
 #controls #currentlyPlaying{
-	float:left;
 	color: #fff;
 	text-shadow: #000 0 2px 2px;
 	font-family: Verdana;
-	margin-left: 5px;
 	font-size:20px;
-	padding: 5px 0px 0px 7px;
 	border-left: 1px dotted #666;
 	height:32px;
 	overflow: hidden;
 	text-align: left;
 	clear: none;
+	padding: 5px 80px 0px 7px;
 }
 
 
@@ -65,7 +62,9 @@
 }
 
 #rightGroup{
-	float: right;
+	position:absolute;
+	top:5px;
+	right:0px;
 	border-left: 1px dotted #666;
 	padding-left: 5px;
 	margin-right: 15px;
